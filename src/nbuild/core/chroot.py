@@ -82,7 +82,7 @@ def _subst_in(pat, rep, src, dest=None):
 
 
 def _prepare_etc():
-    bfp = paths.distdir() / "main/base-files/files"
+    bfp = paths.distdir() / "system/base-files/files"
     tfp = paths.bldroot() / "etc"
 
     shutil.copy(bfp / "etc/passwd", tfp)
