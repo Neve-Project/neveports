@@ -36,11 +36,14 @@ def install(self):
         "run",
         "sys",
         "usr",
+        "bin",
+        "sbin",
+        "lib",
     ]:
         self.install_dir(d)
 
     # /usr dirs
-    for d in ["bin", "include", "lib", "share", "src"]:
+    for d in ["bin", "sbin", "include", "lib", "share", "src"]:
         self.install_dir("usr/" + d)
         self.install_dir("usr/local/" + d)
 
@@ -58,16 +61,6 @@ def install(self):
     # /tmp
     self.install_dir("tmp")
     (self.destdir / "tmp").chmod(0o777)
-
-    # Create bin and lib dirs and symlinks
-    for d in ["bin", "lib"]:
-        self.install_dir("usr/" + d)
-        self.install_link(d, "usr/" + d)
-
-    # Symlink sbin paths to /usr/bin
-    self.install_link("sbin", "usr/bin")
-    self.install_link("usr/sbin", "bin")
-    self.install_link("usr/local/sbin", "bin")
 
     # Users and tmpfiles
     self.install_sysusers(self.files_path / "sysusers.conf")
@@ -99,11 +92,11 @@ def install(self):
         "neve-release",
         "os-release",
     ]:
-        self.install_file(self.files_path / "lib" / f, "usr/lib")
+        self.install_file(self.files_path / "lib" / f, "lib")
 
     # Systemwide profile snippets
     for f in (self.files_path / "profile.d").glob("*.sh"):
-        self.install_file(f, "usr/lib/profile.d")
+        self.install_file(f, "lib/profile.d")
 
     # Install common licenses
     self.install_dir("usr/share/licenses")
